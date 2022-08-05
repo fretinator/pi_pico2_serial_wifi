@@ -1,0 +1,1 @@
+socat -d -d -d tcp-l:8080,reuseaddr,fork exec:'sudo /bin/login',pty,setsid,setpgid,stderr,ctty

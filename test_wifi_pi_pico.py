@@ -2,11 +2,9 @@ import time
 import utime
 import network
 import socket
+import uerrno
 from machine import UART,Pin,I2C
 import ssd1306
-
-ssid = 'MyNeighbor'
-password = '1234567890'
 
 BAUDS = [300,1200,2400,4800,9600,19200, 38400,57600,115200]
 DEFAULT_BAUD_SEL = 1
@@ -127,7 +125,7 @@ class SerialWifi:
                     #print("SOCKET -> SERIAL: " + str(len(bytes_read)) + " read, " + str(bytes_written) + " written.") 
             except OSError as e:
                 err = e.args[0]
-                if not (errno.EAGAIN == err or errno.EWOULDBLOCK == err):
+                if not (uerrno.EAGAIN == err or uerrno.EWOULDBLOCK == err):
                     print("Error reading network socket: " + str(err) + " - " + str(e))
                     
                     cur_tries = 0
@@ -154,6 +152,10 @@ display.poweron()
 printScreen("Starting WiFi...")
         
 baud_change_pin.irq(trigger=Pin.IRQ_RISING, handler= baud_change_handler)        
+    
+ssid = 'MyCharterWiFi49-2G'
+password = 'LazarusRises971'
+
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
